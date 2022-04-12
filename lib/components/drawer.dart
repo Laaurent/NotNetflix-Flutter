@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class CustomDrawer extends StatelessWidget {
+class CustomDrawer extends StatefulWidget {
   const CustomDrawer({
     Key? key,
   }) : super(key: key);
 
-  void signInToFirebase(String email, String password) async {
+  @override
+  State<CustomDrawer> createState() => _CustomDrawerState();
+}
+
+class _CustomDrawerState extends State<CustomDrawer> {
+  String errorMessage = '';
+
+  void signOutFromFirebase() async {
     try {
       await FirebaseAuth.instance.signOut().then(
             (value) => Navigator.of(context).pushReplacementNamed('/login'),
@@ -106,18 +113,21 @@ class CustomDrawer extends StatelessWidget {
               ),
             ),
           ),
-          const Expanded(
+          Expanded(
             child: Align(
               alignment: FractionalOffset.bottomLeft,
               child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 40, horizontal: 25),
-                child: Text(
-                  'Sign Out',
-                  style: TextStyle(
-                    color: Colors.red,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
+                padding:
+                    const EdgeInsets.symmetric(vertical: 40, horizontal: 25),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.white,
+                    onPrimary: Colors.red,
                   ),
+                  onPressed: () {
+                    signOutFromFirebase();
+                  },
+                  child: const Text('Log Out'),
                 ),
               ),
             ),
