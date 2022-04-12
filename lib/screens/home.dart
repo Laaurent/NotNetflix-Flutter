@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:not_netflix/screens/auth/register.dart';
+import 'package:not_netflix/screens/detail.dart';
+import 'package:not_netflix/screens/exo1.dart';
 import 'package:not_netflix/components/drawer.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -15,7 +16,8 @@ class _MyHomePageState extends State<MyHomePage> {
   int index = 0;
 
   List<Widget> list = [
-    const RegisterScreen(),
+    const DetailScreen(),
+    const Exo1Screen(),
   ];
 
   @override
