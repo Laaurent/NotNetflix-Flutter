@@ -19,11 +19,9 @@ class HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home'),
+        title: Text(_tabs[_currentTab]['name']),
       ),
-      body: const Center(
-        child: Text('Home'),
-      ),
+      body: null,
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentTab,
         onTap: (index) {
