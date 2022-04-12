@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             routes: routes,
             initialRoute:
-                FirebaseAuth.instance.currentUser != null ? '/' : '/register',
+                FirebaseAuth.instance.currentUser != null ? '/' : '/login',
           );
         }
 

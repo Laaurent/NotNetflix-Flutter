@@ -96,6 +96,11 @@ class _RegisterFormState extends State<RegisterForm> {
               },
               child: const Text('Submit'),
             ),
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context).pushReplacementNamed('/login');
+                },
+                child: const Text('Login')),
             const SizedBox(
               height: 25,
             ),
