@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase/firebase.dart' as WebFirebase;
 
 void main() {
   runApp(const MyApp());
