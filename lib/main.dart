@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:not_netflix/routes.dart';
 import 'firebase_options.dart';
+import 'package:adaptive_theme/adaptive_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,11 +24,24 @@ class MyApp extends StatelessWidget {
       future: _initialization,
       builder: ((context, snapshot) {
         if (snapshot.hasError) {
-          return const MaterialApp(
-            home: Scaffold(
-              body: SafeArea(
-                child: Center(
-                  child: Text('Error'),
+          AdaptiveTheme(
+            light: ThemeData(
+              brightness: Brightness.light,
+              primarySwatch: Colors.red,
+              accentColor: Colors.amber,
+            ),
+            dark: ThemeData(
+              brightness: Brightness.dark,
+              primarySwatch: Colors.red,
+              accentColor: Colors.amber,
+            ),
+            initial: AdaptiveThemeMode.light,
+            builder: (theme, darkTheme) => const MaterialApp(
+              home: Scaffold(
+                body: SafeArea(
+                  child: Center(
+                    child: Text('Error'),
+                  ),
                 ),
               ),
             ),
@@ -35,15 +49,27 @@ class MyApp extends StatelessWidget {
         }
 
         if (snapshot.connectionState == ConnectionState.done) {
-          return MaterialApp(
-            title: 'Flutter',
-            theme: ThemeData(
-              primarySwatch: Colors.blue,
+          return AdaptiveTheme(
+            light: ThemeData(
+              brightness: Brightness.light,
+              primarySwatch: Colors.red,
+              accentColor: Colors.amber,
             ),
-            debugShowCheckedModeBanner: false,
-            routes: routes,
-            initialRoute:
-                FirebaseAuth.instance.currentUser != null ? '/' : '/login',
+            dark: ThemeData(
+              brightness: Brightness.dark,
+              primarySwatch: Colors.red,
+              accentColor: Colors.amber,
+            ),
+            initial: AdaptiveThemeMode.light,
+            builder: (theme, darkTheme) => MaterialApp(
+              title: 'Flutter',
+              theme: theme,
+              darkTheme: darkTheme,
+              debugShowCheckedModeBanner: false,
+              routes: routes,
+              initialRoute:
+                  FirebaseAuth.instance.currentUser != null ? '/' : '/login',
+            ),
           );
         }
 
