@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:not_netflix/views/Home.dart';
+import 'package:not_netflix/views/home.dart';
 import 'firebase_options.dart';
 
 final Map<String, Widget Function(BuildContext)> routes = {

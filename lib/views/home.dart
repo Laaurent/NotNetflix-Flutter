@@ -8,7 +8,12 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home> {
-  int _current = 0;
+  int _currentTab = 1;
+  final List<Map<String, dynamic>> _tabs = const [
+    {'name': 'Profil', 'icon': Icon(Icons.person)},
+    {'name': 'Home', 'icon': Icon(Icons.home)},
+    {'name': 'Search', 'icon': Icon(Icons.search)},
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -20,25 +25,17 @@ class HomeState extends State<Home> {
         child: Text('Home'),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _current,
+        currentIndex: _currentTab,
         onTap: (index) {
           setState(() {
-            _current = index;
+            _currentTab = index;
           });
         },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
+        items: [
+          ...List.generate(
+              _tabs.length,
+              (index) => BottomNavigationBarItem(
+                  icon: _tabs[index]['icon'], label: _tabs[index]['name']))
         ],
       ),
     );
