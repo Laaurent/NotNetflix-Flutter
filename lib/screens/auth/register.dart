@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:not_netflix/components/form.dart';
+import 'package:not_netflix/components/register_form.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({Key? key}) : super(key: key);
