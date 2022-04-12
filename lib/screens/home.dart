@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:not_netflix/screens/auth/register.dart';
+import 'package:not_netflix/components/drawer.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -23,6 +24,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: const Text('Flutter'),
       ),
+      drawer: const CustomDrawer(),
       body: list[index],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: index,
