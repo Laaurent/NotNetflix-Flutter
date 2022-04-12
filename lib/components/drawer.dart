@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:adaptive_theme/adaptive_theme.dart';
 
 class CustomDrawer extends StatefulWidget {
   const CustomDrawer({
@@ -116,19 +117,37 @@ class _CustomDrawerState extends State<CustomDrawer> {
           Expanded(
             child: Align(
               alignment: FractionalOffset.bottomLeft,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 40, horizontal: 25),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.white,
-                    onPrimary: Colors.red,
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 40, horizontal: 25),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.white,
+                        onPrimary: Colors.red,
+                      ),
+                      onPressed: () {
+                        signOutFromFirebase();
+                      },
+                      child: const Text('Log Out'),
+                    ),
                   ),
-                  onPressed: () {
-                    signOutFromFirebase();
-                  },
-                  child: const Text('Log Out'),
-                ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 40, horizontal: 25),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.white,
+                        onPrimary: Colors.red,
+                      ),
+                      onPressed: () {
+                        AdaptiveTheme.of(context).toggleThemeMode();
+                      },
+                      child: const Text('Theme'),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),

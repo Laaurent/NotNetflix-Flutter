@@ -35,8 +35,6 @@ class _MyHomePageState extends State<MyHomePage> {
             index = i;
           });
         },
-        backgroundColor: Colors.blue,
-        selectedItemColor: Colors.white,
         iconSize: 48,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
