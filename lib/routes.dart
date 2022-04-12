@@ -6,7 +6,7 @@ import 'package:not_netflix/screens/home.dart';
 final Map<String, Widget Function(BuildContext)> routes = {
   '/register': (context) => const RegisterScreen(),
   '/login': (context) => const LoginScreen(),
-  '/': (context) => const MyHomePage(title: 'Flutter'),
+  '/': (context) => const Home(),
   '/other': (context) => Scaffold(
         appBar: AppBar(),
       ),

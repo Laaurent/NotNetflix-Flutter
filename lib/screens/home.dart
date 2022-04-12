@@ -1,47 +1,54 @@
 import 'package:flutter/material.dart';
-import 'package:not_netflix/screens/detail.dart';
-import 'package:not_netflix/screens/exo1.dart';
 import 'package:not_netflix/components/drawer.dart';
+import 'package:not_netflix/components/list_series.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<Home> createState() => HomeState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int index = 0;
-
-  List<Widget> list = [
-    const DetailScreen(),
-    const Exo1Screen(),
+class HomeState extends State<Home> {
+  int _currentTab = 0;
+  final List<Map<String, dynamic>> _tabs = [
+    {
+      'name': 'Home',
+      'icon': const Icon(Icons.home),
+      'widget': const ListSeries()
+    },
+    {
+      'name': 'Detail',
+      'icon': const Icon(Icons.list),
+      'widget': const Text('TODO')
+    },
+    {
+      'name': 'Search',
+      'icon': const Icon(Icons.search),
+      'widget': const Text('TODO')
+    },
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Flutter'),
+        title: Text(_tabs[_currentTab]['name']),
       ),
       drawer: const CustomDrawer(),
-      body: list[index],
+      body: _tabs[_currentTab]['widget'],
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: index,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        onTap: (int i) {
+        currentIndex: _currentTab,
+        onTap: (index) {
           setState(() {
-            index = i;
+            _currentTab = index;
           });
         },
-        iconSize: 48,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.list), label: 'List'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'User'),
+        items: [
+          ...List.generate(
+              _tabs.length,
+              (index) => BottomNavigationBarItem(
+                  icon: _tabs[index]['icon'], label: _tabs[index]['name']))
         ],
       ),
     );

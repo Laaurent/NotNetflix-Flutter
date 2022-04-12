@@ -6,7 +6,6 @@ import 'firebase_options.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
