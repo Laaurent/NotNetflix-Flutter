@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:not_netflix/screens/detail.dart';
+// import 'package:not_netflix/screens/detail.dart';
 import 'package:not_netflix/screens/exo1.dart';
 import 'package:not_netflix/components/drawer.dart';
 
@@ -16,7 +16,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int index = 0;
 
   List<Widget> list = [
-    const DetailScreen(),
+    // const DetailScreen(),
     const Exo1Screen(),
   ];
 
