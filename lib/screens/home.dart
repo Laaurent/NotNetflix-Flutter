@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:not_netflix/components/detail.dart';
 import 'package:not_netflix/components/drawer.dart';
 import 'package:not_netflix/components/list_series.dart';
 
@@ -20,7 +21,7 @@ class HomeState extends State<Home> {
     {
       'name': 'Detail',
       'icon': const Icon(Icons.list),
-      'widget': const Text('TODO')
+      // 'widget': const Detail(1)
     },
     {
       'name': 'Search',

@@ -40,66 +40,6 @@ class _ListSeriesState extends State<ListSeries> {
     fetchData(_currentPage);
   }
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   return FutureBuilder(
-  //       future: fetchData(
-  //           _currentPage), // the function to get your data from firebase or firestore
-  //       builder: (BuildContext context, AsyncSnapshot snap) {
-  //         if (snap.data == null) {
-  //           return const Text('LOADING...');
-  //         } else {
-  //           return Column(
-  //             children: [
-  //               Padding(
-  //                 padding: const EdgeInsets.only(left: 10),
-  //                 child: Wrap(
-  //                   children: [
-  //                     Text(
-  //                       'Tendences actuelles' + snap.data.length.toString(),
-  //                       style: const TextStyle(
-  //                           fontSize: 20, fontWeight: FontWeight.bold),
-  //                     ),
-  //                     SizedBox(
-  //                       height: 200,
-  //                       child: ListView.builder(
-  //                         scrollDirection: Axis.horizontal,
-  //                         itemCount: series.length,
-  //                         itemBuilder: (context, index) {
-  //                           final oneSeries = snap.data[index];
-  //                           final image = oneSeries['image']['medium'] != null
-  //                               ? oneSeries['image']['medium']
-  //                               : oneSeries['image']['original'] != null
-  //                                   ? oneSeries['image']['original']
-  //                                   : 'https://www.placecage.com/640/360';
-  //                           return Container(
-  //                             margin: const EdgeInsets.only(right: 10),
-  //                             width: 125,
-  //                             height: 200,
-  //                             decoration: BoxDecoration(
-  //                               borderRadius: const BorderRadius.only(
-  //                                   topLeft: Radius.circular(10),
-  //                                   topRight: Radius.circular(10),
-  //                                   bottomLeft: Radius.circular(10),
-  //                                   bottomRight: Radius.circular(10)),
-  //                               image: DecorationImage(
-  //                                 image: NetworkImage(image),
-  //                                 fit: BoxFit.cover,
-  //                               ),
-  //                             ),
-  //                           );
-  //                         },
-  //                       ),
-  //                     ),
-  //                   ],
-  //                 ),
-  //               ),
-  //             ],
-  //           );
-  //         }
-  //       });
-  // }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -109,10 +49,9 @@ class _ListSeriesState extends State<ListSeries> {
             padding: const EdgeInsets.only(left: 10),
             child: Wrap(
               children: [
-                Text(
-                  'Tendences actuelles' + series.length.toString(),
-                  style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.bold),
+                const Text(
+                  'Tendences actuelles',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(
                   height: 200,
@@ -126,22 +65,27 @@ class _ListSeriesState extends State<ListSeries> {
                           : oneSeries['image']['original'] != null
                               ? oneSeries['image']['original']
                               : 'https://www.placecage.com/640/360';
-                      return Container(
-                        margin: const EdgeInsets.only(right: 10),
-                        width: 125,
-                        height: 200,
-                        decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(10),
-                              topRight: Radius.circular(10),
-                              bottomLeft: Radius.circular(10),
-                              bottomRight: Radius.circular(10)),
-                          image: DecorationImage(
-                            image: NetworkImage(image),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      );
+                      return InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(context, '/detail',
+                                arguments: {'id': oneSeries['id']});
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.only(right: 10),
+                            width: 125,
+                            height: 200,
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(10),
+                                  topRight: Radius.circular(10),
+                                  bottomLeft: Radius.circular(10),
+                                  bottomRight: Radius.circular(10)),
+                              image: DecorationImage(
+                                image: NetworkImage(image),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ));
                     },
                   ),
                 ),

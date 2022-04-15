@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:not_netflix/routes.dart';
+import 'components/detail.dart';
 import 'firebase_options.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
 
@@ -68,6 +69,17 @@ class MyApp extends StatelessWidget {
               routes: routes,
               initialRoute:
                   FirebaseAuth.instance.currentUser != null ? '/' : '/login',
+              onGenerateRoute: (settings) {
+                if (settings.name == '/detail') {
+                  final args = settings.arguments as Map<String, dynamic>;
+                  return MaterialPageRoute(
+                    builder: (context) => Detail(
+                      id: args['id'] as int,
+                    ),
+                  );
+                }
+                return null;
+              },
             ),
           );
         }
