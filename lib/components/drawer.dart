@@ -109,18 +109,16 @@ class _CustomDrawerState extends State<CustomDrawer> {
                           },
                         ), */
 
-                        if (Theme.of(context).toString() ==
-                            'ThemeData#8ffb5') ...[
+                        if (Theme.of(context).brightness.toString() ==
+                            'Brightness.light') ...[
                           TextButton(
                               onPressed: () {
-                                print(Theme.of(context));
                                 AdaptiveTheme.of(context).setDark();
                               },
                               child: const Icon(Icons.dark_mode, size: 14))
                         ] else ...[
                           TextButton(
                               onPressed: () {
-                                print(Theme.of(context));
                                 AdaptiveTheme.of(context).setLight();
                               },
                               child: const Icon(Icons.sunny, size: 14))
