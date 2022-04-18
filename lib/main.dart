@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:not_netflix/components/drawer.dart';
 import 'package:not_netflix/routes.dart';
 import 'components/detail.dart';
 import 'firebase_options.dart';
@@ -71,8 +72,18 @@ class MyApp extends StatelessWidget {
                 if (settings.name == '/detail') {
                   final args = settings.arguments as Map<String, dynamic>;
                   return MaterialPageRoute(
-                    builder: (context) => Detail(
-                      id: args['id'] as int,
+                    builder: (context) => Scaffold(
+                      appBar: AppBar(
+                        title: const Text('Detail'),
+                        //back to previous screen
+                        leading: IconButton(
+                          icon: const Icon(Icons.arrow_back),
+                          onPressed: () => Navigator.pop(context),
+                        ),
+                      ),
+                      body: Detail(
+                        id: args['id'] as int,
+                      ),
                     ),
                   );
                 }

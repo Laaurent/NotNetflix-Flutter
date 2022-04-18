@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_if_null_operators
 
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart' as html;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -16,9 +17,12 @@ class _DetailState extends State<Detail> {
   late Future promise;
   late Map<String, dynamic> data;
   late String image;
+  late List<dynamic> seasons = [];
+  late List<String> seasonsNumber = [];
+  late String dropdownValue = 'Saison 1';
+  late List<dynamic> episodes = [];
+  late Future episodesPromise;
 
-  String dropdownValue = 'Saison 1';
-  var itemsDropdown = ['Saison 1', 'Saison 2', 'Saison 3', 'Saison 4'];
   List<String> list = [
     'https://images.unsplash.com/photo-1647436929276-43fa809c907c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=930&q=80',
     'https://images.unsplash.com/photo-1579656592043-a20e25a4aa4b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80',
@@ -34,27 +38,58 @@ class _DetailState extends State<Detail> {
     'https://images.unsplash.com/photo-1647436929276-43fa809c907c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=930&q=80',
   ];
 
+  // GET DATA + GET SEASONS
   Future<Map<String, dynamic>> fetchData() async {
-    final Uri uri =
+    // -- data show
+    final Uri uriShow =
         Uri.parse('https://api.tvmaze.com/shows/' + widget.id.toString());
-    final response = await http.get(uri);
-    final _data = jsonDecode(response.body) as Map<String, dynamic>;
+    final responseShow = await http.get(uriShow);
+    final _dataShow = jsonDecode(responseShow.body) as Map<String, dynamic>;
+
+    //-- data seasons
+    final uriSeasons = Uri.parse(
+        'https://api.tvmaze.com/shows/' + widget.id.toString() + '/seasons');
+    final responseSeasons = await http.get(uriSeasons);
+    final _dataSeasons = jsonDecode(responseSeasons.body) as List<dynamic>;
 
     setState(() {
-      data = _data;
-      image = _data['image']['medium'] != null
-          ? _data['image']['medium']
-          : _data['image']['original'] != null
-              ? _data['image']['original']
+      data = _dataShow;
+      image = _dataShow['image']['medium'] != null
+          ? _dataShow['image']['medium']
+          : _dataShow['image']['original'] != null
+              ? _dataShow['image']['original']
               : 'https://www.placecage.com/640/360';
+
+      //--
+      seasons = _dataSeasons;
+      for (var i = 1; i < seasons.length; i++) {
+        seasonsNumber.add('Saison ' + i.toString());
+      }
+      dropdownValue = seasonsNumber[0];
     });
+
     return Future(() => data);
+  }
+
+  Future<List<dynamic>> fetchEpisodes() async {
+    int seasonNum = int.parse(dropdownValue.split(' ')[1]);
+    String seasonId = seasons[seasonNum - 1]['id'].toString();
+    final Uri uri =
+        Uri.parse('https://api.tvmaze.com/seasons/$seasonId/episodes');
+    final response = await http.get(uri);
+    final _data = jsonDecode(response.body) as List<dynamic>;
+
+    setState(() {
+      episodes = _data;
+    });
+
+    return Future(() => _data);
   }
 
   @override
   void initState() {
     super.initState();
-    promise = fetchData();
+    promise = fetchData().then((value) => {episodesPromise = fetchEpisodes()});
   }
 
   @override
@@ -63,21 +98,22 @@ class _DetailState extends State<Detail> {
         future: promise,
         builder: ((context, snapshot) {
           if (snapshot.hasError) {
-            return const Text('has error');
+            return Text(snapshot.error.toString());
           }
           if (snapshot.hasData) {
             return Scaffold(
-              body: Column(
-                children: [
-                  Container(
-                    alignment: Alignment.center,
-                    height: 200,
-                    child: Image.network(
-                      image,
+              body: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Column(
+                  children: [
+                    Container(
+                      alignment: Alignment.center,
+                      height: 200,
+                      child: Image.network(
+                        image,
+                      ),
                     ),
-                  ),
-                  SingleChildScrollView(
-                    child: Row(
+                    Row(
                       children: [
                         Expanded(
                           child: Column(
@@ -98,22 +134,22 @@ class _DetailState extends State<Detail> {
                                     ),
                                     Wrap(
                                       spacing: 10,
-                                      children: const [
+                                      children: [
                                         Text(
-                                          '2019',
-                                          style: TextStyle(
+                                          data['premiered']
+                                              .toString()
+                                              .split('-')[0],
+                                          style: const TextStyle(
                                             fontSize: 15,
                                           ),
                                         ),
                                         Text(
-                                          '13+',
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                          ),
-                                        ),
-                                        Text(
-                                          '6 saisons',
-                                          style: TextStyle(
+                                          seasonsNumber.length.toString() +
+                                              ' saison' +
+                                              (seasonsNumber.length > 1
+                                                  ? 's'
+                                                  : ''),
+                                          style: const TextStyle(
                                             fontSize: 15,
                                           ),
                                         ),
@@ -130,9 +166,9 @@ class _DetailState extends State<Detail> {
                                               const TextStyle(fontSize: 20),
                                         ),
                                         onPressed: () {
-                                          html.window.location.href =
-                                              "https://www.youtube.com/results?search_query=" +
-                                                  data['name'];
+                                          // html.window.location.href =
+                                          //     "https://www.youtube.com/results?search_query=" +
+                                          //         data['name'];
                                         },
                                         child: const Text('Lecture'),
                                       ),
@@ -154,28 +190,22 @@ class _DetailState extends State<Detail> {
                                         child: const Text('Télécharger'),
                                       ),
                                     ),
-                                    const Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 5),
-                                      child: Text(
-                                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                        ),
-                                      ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 5),
+                                      child: html.Html(data: data['summary']),
                                     ),
-                                    const Text(
-                                      'Avec : Cilian Murphy',
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                    const Text(
-                                      'Créateur : Steven knight',
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                      ),
-                                    ),
+                                    Text(
+                                        'Genre' +
+                                            (data['genres'].length > 1
+                                                ? 's'
+                                                : ''),
+                                        style: const TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold)),
+                                    Text(data['genres']
+                                        .map((e) => e)
+                                        .join(' • ')),
                                     Padding(
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 10),
@@ -261,17 +291,20 @@ class _DetailState extends State<Detail> {
                                         value: dropdownValue,
                                         icon: const Icon(Icons.arrow_drop_down),
                                         items:
-                                            itemsDropdown.map((String items) {
+                                            seasonsNumber.map((String items) {
                                           return DropdownMenuItem(
                                             value: items,
                                             child: Text(items),
                                           );
                                         }).toList(),
-                                        onChanged: (String? newValue) {
+                                        onChanged: (dynamic newValue) async {
                                           setState(() {
-                                            dropdownValue = newValue!;
+                                            dropdownValue = newValue.toString();
                                           });
-                                        })
+                                          await fetchEpisodes();
+                                        }),
+                                    episodesList(),
+                                    // Text(episodes.toString()),
                                   ],
                                 ),
                               ),
@@ -280,12 +313,66 @@ class _DetailState extends State<Detail> {
                         ),
                       ],
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             );
           }
           return Container();
         }));
+  }
+
+  FutureBuilder<dynamic> episodesList() {
+    return FutureBuilder(
+      future: episodesPromise,
+      builder: ((_context, _builder) {
+        if (_builder.hasError) {
+          return Text(_builder.error.toString());
+        }
+        if (_builder.hasData) {
+          return SizedBox(
+            height: 512,
+            child: ListView.builder(
+              scrollDirection: Axis.vertical,
+              itemCount: episodes.length,
+              itemBuilder: (context, index) {
+                final episode = episodes[index];
+                final image = episode['image']['medium'] != null
+                    ? episode['image']['medium']
+                    : episode['image']['original'] != null
+                        ? episode['image']['original']
+                        : 'https://www.placecage.com/640/360';
+                return Column(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(right: 10),
+                      width: 256,
+                      height: 256,
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10),
+                            bottomLeft: Radius.circular(10),
+                            bottomRight: Radius.circular(10)),
+                        image: DecorationImage(
+                          image: NetworkImage(image),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    Text(episode['name']),
+                    html.Html(data: episode['summary']),
+                    const Divider(
+                      thickness: 1,
+                    ),
+                  ],
+                );
+              },
+            ),
+          );
+        }
+        return const Text("loading");
+      }),
+    );
   }
 }
