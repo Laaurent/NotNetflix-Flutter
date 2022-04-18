@@ -299,76 +299,7 @@ class _DetailState extends State<Detail> {
                                           });
                                           await fetchEpisodes();
                                         }),
-                                    FutureBuilder(
-                                      future: episodesPromise,
-                                      builder: ((_context, _builder) {
-                                        if (_builder.hasError) {
-                                          return Text(
-                                              _builder.error.toString());
-                                        }
-                                        if (_builder.hasData) {
-                                          return SizedBox(
-                                            height: 256,
-                                            child: ListView.builder(
-                                              scrollDirection: Axis.vertical,
-                                              itemCount: episodes.length,
-                                              itemBuilder: (context, index) {
-                                                final episode = episodes[index];
-                                                final image = episode['image']
-                                                            ['medium'] !=
-                                                        null
-                                                    ? episode['image']['medium']
-                                                    : episode['image']
-                                                                ['original'] !=
-                                                            null
-                                                        ? episode['image']
-                                                            ['original']
-                                                        : 'https://www.placecage.com/640/360';
-                                                return Column(
-                                                  children: [
-                                                    Container(
-                                                      margin:
-                                                          const EdgeInsets.only(
-                                                              right: 10),
-                                                      width: 256,
-                                                      height: 256,
-                                                      decoration: BoxDecoration(
-                                                        borderRadius: const BorderRadius
-                                                                .only(
-                                                            topLeft: Radius
-                                                                .circular(10),
-                                                            topRight:
-                                                                Radius.circular(
-                                                                    10),
-                                                            bottomLeft:
-                                                                Radius.circular(
-                                                                    10),
-                                                            bottomRight:
-                                                                Radius.circular(
-                                                                    10)),
-                                                        image: DecorationImage(
-                                                          image: NetworkImage(
-                                                              image),
-                                                          fit: BoxFit.cover,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Text(episode['name']),
-                                                    Html(
-                                                        data:
-                                                            episode['summary']),
-                                                    const Divider(
-                                                      thickness: 1,
-                                                    ),
-                                                  ],
-                                                );
-                                              },
-                                            ),
-                                          );
-                                        }
-                                        return const Text("loading");
-                                      }),
-                                    ),
+                                    episodesList(),
                                     // Text(episodes.toString()),
                                   ],
                                 ),
@@ -385,5 +316,59 @@ class _DetailState extends State<Detail> {
           }
           return Container();
         }));
+  }
+
+  FutureBuilder<dynamic> episodesList() {
+    return FutureBuilder(
+      future: episodesPromise,
+      builder: ((_context, _builder) {
+        if (_builder.hasError) {
+          return Text(_builder.error.toString());
+        }
+        if (_builder.hasData) {
+          return SizedBox(
+            height: 512,
+            child: ListView.builder(
+              scrollDirection: Axis.vertical,
+              itemCount: episodes.length,
+              itemBuilder: (context, index) {
+                final episode = episodes[index];
+                final image = episode['image']['medium'] != null
+                    ? episode['image']['medium']
+                    : episode['image']['original'] != null
+                        ? episode['image']['original']
+                        : 'https://www.placecage.com/640/360';
+                return Column(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(right: 10),
+                      width: 256,
+                      height: 256,
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10),
+                            bottomLeft: Radius.circular(10),
+                            bottomRight: Radius.circular(10)),
+                        image: DecorationImage(
+                          image: NetworkImage(image),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    Text(episode['name']),
+                    Html(data: episode['summary']),
+                    const Divider(
+                      thickness: 1,
+                    ),
+                  ],
+                );
+              },
+            ),
+          );
+        }
+        return const Text("loading");
+      }),
+    );
   }
 }
