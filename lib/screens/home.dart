@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:not_netflix/components/detail.dart';
 import 'package:not_netflix/components/drawer.dart';
 import 'package:not_netflix/components/list_series.dart';
 

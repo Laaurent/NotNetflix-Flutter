@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:not_netflix/components/detail.dart';
-// import 'package:not_netflix/components/detail.dart';
 import 'package:not_netflix/screens/auth/login.dart';
 import 'package:not_netflix/screens/auth/register.dart';
 import 'package:not_netflix/screens/home.dart';

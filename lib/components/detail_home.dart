@@ -62,7 +62,7 @@ class Detail extends StatelessWidget {
             itemCount: list.length,
             itemBuilder: (context, index) {
               return Container(
-                margin: EdgeInsets.all(10),
+                margin: const EdgeInsets.all(10),
                 width: 200,
                 height: 200,
                 decoration: BoxDecoration(
