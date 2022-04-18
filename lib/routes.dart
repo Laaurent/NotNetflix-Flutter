@@ -9,7 +9,13 @@ final Map<String, Widget Function(BuildContext)> routes = {
   '/login': (context) => const LoginScreen(),
   '/': (context) => const Home(),
   '/profile': (context) => Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          title: const Text('Profile'),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ),
         body: const Profile(),
       ),
   '/other': (context) => Scaffold(
