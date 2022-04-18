@@ -166,9 +166,9 @@ class _DetailState extends State<Detail> {
                                               const TextStyle(fontSize: 20),
                                         ),
                                         onPressed: () {
-                                          // html.window.location.href =
-                                          //     "https://www.youtube.com/results?search_query=" +
-                                          //         data['name'];
+                                          /*  html.window.location.href =
+                                              "https://www.youtube.com/results?search_query=" +
+                                                  data['name']; */
                                         },
                                         child: const Text('Lecture'),
                                       ),

@@ -70,6 +70,21 @@ class _CustomDrawerState extends State<CustomDrawer> {
               ),
             ),
           ),
+          GestureDetector(
+            onTap: () {
+              Navigator.pushReplacementNamed(context, '/profile');
+            },
+            child: const Padding(
+              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 25),
+              child: Text(
+                'Profile',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+            ),
+          ),
           Expanded(
             child: Align(
               alignment: FractionalOffset.bottomLeft,
