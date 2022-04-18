@@ -13,6 +13,7 @@ class CustomDrawer extends StatefulWidget {
 
 class _CustomDrawerState extends State<CustomDrawer> {
   String errorMessage = '';
+  bool isSwitched = false;
 
   void signOutFromFirebase() async {
     try {
@@ -36,7 +37,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             decoration: const BoxDecoration(
               image: DecorationImage(
                 image: NetworkImage(
-                  'https://images.unsplash.com/photo-1647436929276-43fa809c907c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=930&q=80',
+                  'https://images.unsplash.com/photo-1512070750041-b9479c107194?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1305&q=80',
                 ),
                 fit: BoxFit.cover,
               ),
@@ -48,7 +49,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text(
-                    'Flutter',
+                    'Not Netflix',
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -69,51 +70,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
               ),
             ),
           ),
-          GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(context, '/detail');
-            },
-            child: const Padding(
-              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 25),
-              child: Text(
-                'Detail',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                ),
-              ),
-            ),
-          ),
-          GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(context, '/profile');
-            },
-            child: const Padding(
-              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 25),
-              child: Text(
-                'Profile',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                ),
-              ),
-            ),
-          ),
-          GestureDetector(
-            onTap: () {
-              Navigator.pushReplacementNamed(context, '/detail');
-            },
-            child: const Padding(
-              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 25),
-              child: Text(
-                'Other',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                ),
-              ),
-            ),
-          ),
           Expanded(
             child: Align(
               alignment: FractionalOffset.bottomLeft,
@@ -122,9 +78,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 40, horizontal: 25),
-                    child: ElevatedButton(
+                    child: TextButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.white,
+                        primary: Colors.black.withOpacity(0),
                         onPrimary: Colors.red,
                       ),
                       onPressed: () {
@@ -135,16 +91,41 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                        vertical: 40, horizontal: 25),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.white,
-                        onPrimary: Colors.red,
-                      ),
-                      onPressed: () {
-                        AdaptiveTheme.of(context).toggleThemeMode();
-                      },
-                      child: const Text('Theme'),
+                        vertical: 40, horizontal: 10),
+                    child: Row(
+                      children: [
+                        /*  Switch(
+                          value: isSwitched,
+                          onChanged: (value) {
+                            setState(() {
+                              isSwitched = value;
+                              print(Theme.of(context));
+                              if (value) {
+                                AdaptiveTheme.of(context).setDark();
+                              } else {
+                                AdaptiveTheme.of(context).setLight();
+                              }
+                            });
+                          },
+                        ), */
+
+                        if (Theme.of(context).toString() ==
+                            'ThemeData#8ffb5') ...[
+                          TextButton(
+                              onPressed: () {
+                                print(Theme.of(context));
+                                AdaptiveTheme.of(context).setDark();
+                              },
+                              child: const Icon(Icons.dark_mode, size: 14))
+                        ] else ...[
+                          TextButton(
+                              onPressed: () {
+                                print(Theme.of(context));
+                                AdaptiveTheme.of(context).setLight();
+                              },
+                              child: const Icon(Icons.sunny, size: 14))
+                        ]
+                      ],
                     ),
                   ),
                 ],

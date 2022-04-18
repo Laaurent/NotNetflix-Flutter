@@ -54,6 +54,7 @@ class MyApp extends StatelessWidget {
               brightness: Brightness.light,
               primarySwatch: Colors.red,
               accentColor: Colors.amber,
+              
             ),
             dark: ThemeData(
               brightness: Brightness.dark,

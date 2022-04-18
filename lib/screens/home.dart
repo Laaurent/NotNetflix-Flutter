@@ -37,20 +37,6 @@ class HomeState extends State<Home> {
       ),
       drawer: const CustomDrawer(),
       body: _tabs[_currentTab]['widget'],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentTab,
-        onTap: (index) {
-          setState(() {
-            _currentTab = index;
-          });
-        },
-        items: [
-          ...List.generate(
-              _tabs.length,
-              (index) => BottomNavigationBarItem(
-                  icon: _tabs[index]['icon'], label: _tabs[index]['name']))
-        ],
-      ),
     );
   }
 }
