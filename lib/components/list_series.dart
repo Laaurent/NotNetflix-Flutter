@@ -57,7 +57,7 @@ class _ListSeriesState extends State<ListSeries> {
               ),
             ),
             SizedBox(
-              height: 400,
+              height: 500,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: series.length,
@@ -68,7 +68,7 @@ class _ListSeriesState extends State<ListSeries> {
                       : oneSeries['image']['medium'] != null
                           ? oneSeries['image']['medium']
                           : 'https://www.placecage.com/640/360';
-                  return InkWell(
+                  return GestureDetector(
                       onTap: () {
                         Navigator.pushNamed(context, '/detail',
                             arguments: {'id': oneSeries['id']});
@@ -76,16 +76,51 @@ class _ListSeriesState extends State<ListSeries> {
                       child: Container(
                         margin: const EdgeInsets.only(right: 10),
                         width: 250,
-                        // height: 200,
-                        decoration: BoxDecoration(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(10)),
-                          image: DecorationImage(
-                            image: NetworkImage(image),
-                            fit: BoxFit.fill,
-                          ),
+                        // height: 500,
+                        child: Column(
+                          children: [
+                            Container(
+                              height: 400,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.network(
+                                  image,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              oneSeries['name'],
+                              style: const TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              oneSeries['genres'].join(','),
+                              style: const TextStyle(
+                                  fontSize: 12, fontWeight: FontWeight.normal),
+                            ),
+                            Text(
+                              oneSeries['premiered'].split('-')[0],
+                              style: const TextStyle(
+                                  fontSize: 12, fontWeight: FontWeight.normal),
+                            ),
+                          ],
                         ),
-                      ));
+                        // decoration: BoxDecoration(
+                        //   borderRadius:
+                        //       const BorderRadius.all(Radius.circular(10)),
+                        //   image: DecorationImage(
+                        //     image: NetworkImage(image),
+                        //     fit: BoxFit.fill,
+                        //   ),
+                        // ),
+                      )
+                      // Text(
+                      //   oneSeries['name'],
+                      //   style: const TextStyle(fontSize: 16),
+                      // )
+
+                      );
                 },
               ),
             ),
