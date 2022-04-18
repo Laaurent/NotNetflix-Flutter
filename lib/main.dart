@@ -53,12 +53,10 @@ class MyApp extends StatelessWidget {
             light: ThemeData(
               brightness: Brightness.light,
               primarySwatch: Colors.red,
-              accentColor: Colors.amber,
             ),
             dark: ThemeData(
               brightness: Brightness.dark,
               primarySwatch: Colors.red,
-              accentColor: Colors.amber,
             ),
             initial: AdaptiveThemeMode.light,
             builder: (theme, darkTheme) => MaterialApp(
