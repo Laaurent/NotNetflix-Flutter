@@ -43,56 +43,54 @@ class _ListSeriesState extends State<ListSeries> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 10),
-            child: Wrap(
-              children: [
-                const Text(
-                  'Tendences actuelles',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(
-                  height: 200,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: series.length,
-                    itemBuilder: (context, index) {
-                      final oneSeries = series[index];
-                      final image = oneSeries['image']['medium'] != null
-                          ? oneSeries['image']['medium']
-                          : oneSeries['image']['original'] != null
-                              ? oneSeries['image']['original']
-                              : 'https://www.placecage.com/640/360';
-                      return InkWell(
-                          onTap: () {
-                            Navigator.pushNamed(context, '/detail',
-                                arguments: {'id': oneSeries['id']});
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.only(right: 10),
-                            width: 125,
-                            height: 200,
-                            decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(10),
-                                  topRight: Radius.circular(10),
-                                  bottomLeft: Radius.circular(10),
-                                  bottomRight: Radius.circular(10)),
-                              image: DecorationImage(
-                                image: NetworkImage(image),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ));
-                    },
-                  ),
-                ),
-              ],
+      child: Padding(
+        padding: const EdgeInsets.only(left: 10),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              alignment: Alignment.topLeft,
+              padding: const EdgeInsets.only(bottom: 20),
+              child: const Text(
+                'Tendances actuelles',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
             ),
-          ),
-        ],
+            SizedBox(
+              height: 400,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: series.length,
+                itemBuilder: (context, index) {
+                  final oneSeries = series[index];
+                  final image = oneSeries['image']['original'] != null
+                      ? oneSeries['image']['original']
+                      : oneSeries['image']['medium'] != null
+                          ? oneSeries['image']['medium']
+                          : 'https://www.placecage.com/640/360';
+                  return InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/detail',
+                            arguments: {'id': oneSeries['id']});
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.only(right: 10),
+                        width: 250,
+                        // height: 200,
+                        decoration: BoxDecoration(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10)),
+                          image: DecorationImage(
+                            image: NetworkImage(image),
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      ));
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
