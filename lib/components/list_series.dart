@@ -79,7 +79,7 @@ class _ListSeriesState extends State<ListSeries> {
                         // height: 500,
                         child: Column(
                           children: [
-                            Container(
+                            SizedBox(
                               height: 400,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
