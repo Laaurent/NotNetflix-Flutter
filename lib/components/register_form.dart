@@ -47,7 +47,7 @@ class _RegisterFormState extends State<RegisterForm> {
         ),
         child: Column(
           children: <Widget>[
-            const Text('Form'),
+            const Text('S\'inscrire'),
             const SizedBox(
               height: 25,
             ),

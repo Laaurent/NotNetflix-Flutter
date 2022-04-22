@@ -47,7 +47,7 @@ class _LoginFormState extends State<LoginForm> {
         ),
         child: Column(
           children: <Widget>[
-            const Text('Form'),
+            const Text('Connexion'),
             const SizedBox(
               height: 25,
             ),

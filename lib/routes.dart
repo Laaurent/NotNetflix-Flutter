@@ -27,7 +27,7 @@ final Map<String, Widget Function(BuildContext)> routes = {
             onPressed: () => Navigator.pop(context),
           ),
         ),
-        body: Search(),
+        body: const Search(),
       ),
   '/other': (context) => Scaffold(
         appBar: AppBar(),
